@@ -9,12 +9,7 @@ const Tab = createBottomTabNavigator();
 export class BottomTabNavigatorApp extends Component {
   render() {
     return (
-      <Tab.Navigator tabBar={props => <BottomTab {...props} />}>
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{headerShown: false}}
-        />
+      <Tab.Navigator initialRouteName='Home' tabBar={props => <BottomTab {...props} />}>
         <Tab.Screen
           name="Home"
           component={Home}
@@ -23,6 +18,11 @@ export class BottomTabNavigatorApp extends Component {
         <Tab.Screen
           name="Order"
           component={Order}
+          options={{headerShown: false, title:'My Order'}}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
           options={{headerShown: false}}
         />
       </Tab.Navigator>

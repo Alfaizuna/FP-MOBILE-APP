@@ -100,7 +100,7 @@ export class Profile extends Component {
                 borderRadius: 0,
                 padding: 10,
                 marginVertical: 10,
-                borderRadius: 5,
+                borderRadius: 25,
               }}>
               <Text>Udin Markocop</Text>
             </View>
@@ -112,7 +112,7 @@ export class Profile extends Component {
                 borderRadius: 0,
                 padding: 10,
                 marginVertical: 10,
-                borderRadius: 5,
+                borderRadius: 25,
               }}>
               <Text>Udin@gmail.com</Text>
             </View>
@@ -124,7 +124,7 @@ export class Profile extends Component {
                 borderRadius: 0,
                 padding: 10,
                 marginVertical: 10,
-                borderRadius: 5,
+                borderRadius: 25,
               }}>
               <Text>085638315131</Text>
             </View>

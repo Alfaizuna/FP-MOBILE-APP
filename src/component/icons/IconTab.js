@@ -11,7 +11,7 @@ export class Icons extends Component {
             return <Icon name="home" size={size} color={color} />;
         }   
 
-        if (label === 'Order') {
+        if (label === 'My Order') {
           return <Icon name="car" size={size} color={color} />;
         } 
 
