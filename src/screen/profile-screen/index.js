@@ -6,9 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Avatar} from 'react-native-elements';
+import {Avatar, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {mygreen} from '../../constant';
+
 
 export class Profile extends Component {
   render() {
@@ -50,7 +51,7 @@ export class Profile extends Component {
               height: 150,
               alignItems: 'center',
               justifyContent: 'center',
-              marginVertical:30
+              marginVertical: 30,
               // alignContent:'space-between',
               // flexDirection: 'row',
               // padding: 15,
@@ -83,7 +84,7 @@ export class Profile extends Component {
               backgroundColor: 'white',
               borderRadius: 50,
               shadowColor: 'black',
-              padding:20,
+              padding: 20,
               shadowOffset: {
                 width: 0,
                 height: 3,
@@ -92,11 +93,42 @@ export class Profile extends Component {
               shadowRadius: 5,
               elevation: 5,
             }}>
-              <Text>Name</Text>
-              <View style={{borderWidth:0.5, borderRadius:0, padding:10, margin:5}}> 
-                <Text>Udin</Text>
-              </View>
+            <Text>Name</Text>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderRadius: 0,
+                padding: 10,
+                marginVertical: 10,
+                borderRadius: 5,
+              }}>
+              <Text>Udin Markocop</Text>
             </View>
+
+            <Text>Email</Text>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderRadius: 0,
+                padding: 10,
+                marginVertical: 10,
+                borderRadius: 5,
+              }}>
+              <Text>Udin@gmail.com</Text>
+            </View>
+
+            <Text>No Handphone</Text>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderRadius: 0,
+                padding: 10,
+                marginVertical: 10,
+                borderRadius: 5,
+              }}>
+              <Text>085638315131</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -109,5 +141,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     // padding: 20,
+  },
+  inputContainerStyle: {
+    // borderBottomWidth: 0,
+    borderWidth: 1,
+    marginLeft: -10,
+    // marginRight: -10,
+    marginTop: 10,
+    borderRadius: 12,
+    paddingLeft: 10,
+    backgroundColor: 'white',
+    // shadowColor: 'black',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
 });
