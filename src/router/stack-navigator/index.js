@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home, Login, Register} from '../../screen';
+import {Home, Login, Register, InputOrderScreen} from '../../screen';
 import { BottomTabNavigatorApp } from './../bottom-navigator/index';
 
 const Stack = createNativeStackNavigator();
@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 export class StackNavigatorApp extends Component {
   render() {
     return (
-      <Stack.Navigator initialRouteName="BottomTab">
+      <Stack.Navigator initialRouteName="InputOrder">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -24,7 +24,11 @@ export class StackNavigatorApp extends Component {
           name="BottomTab"
           component={BottomTabNavigatorApp}
           options={{headerShown: false}}
-          
+        />
+        <Stack.Screen
+          name="InputOrder"
+          component={InputOrderScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     );

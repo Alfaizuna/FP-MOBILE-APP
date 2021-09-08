@@ -101,7 +101,8 @@ class Home extends Component {
               backgroundColor: mygreen,
               padding: 10,
               marginVertical: 20,
-              borderRadius:10
+              borderRadius:10,
+              alignItems:'center'
             }}>
             <Text style={{color: 'white'}}>Rent a Car</Text>
           </TouchableOpacity>
