@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input} from 'react-native-elements';
 import styles from './styles';
-// import {signIn} from './../../config/redux/actions/auth';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomTab from '../../component/bottom-tab';
+import {connect} from 'react-redux';
+import {signIn} from '../../config/redux/actions/AuthAction';
 
 const title = 'Sign In';
 const labelUsername = 'Username';
@@ -30,8 +29,38 @@ export class Login extends Component {
       visible: true,
       userLists: [],
       userInfo: {},
+      userLogin: {},
+      token: '',
     };
   }
+
+  saveUserLogin = async userLogin => {
+    await AsyncStorage.setItem('@userlogin', JSON.stringify(userLogin));
+  };
+
+  getLogin = () => {
+    const {username, password} = this.state;
+    let user = {username: username, password: password};
+    axios
+      .post('http://192.168.1.4:8080/car/login', user)
+      .then(response => {
+        // console.log(response);
+        if (response.data.errorMessage === 'Invalid username / password') {
+          console.log(response.data);
+          Alert.alert('Sorry...', 'Login failed');
+        } else {
+          Alert.alert('Congrats...', 'login success');
+          this.saveUserLogin(response.data);
+          this.props.doLogin(response.data);
+          return this.props.navigation.replace('BottomTab');
+        }
+        // console.log(response.data);
+        // this.setState({userLogin: response.data});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   renderIconEye = () => <Icon name="eye" size={17} color="grey" />;
   renderIconEyeSlash = () => <Icon name="eye-slash" size={17} color="grey" />;
@@ -41,7 +70,7 @@ export class Login extends Component {
         <TouchableOpacity
           style={styles.visibleButtonStyle}
           onPress={() => this.setState({visible: false})}>
-          {this.renderIconEye()}
+          {this.renderIconEyeSlash()}
         </TouchableOpacity>
       );
     } else {
@@ -49,7 +78,7 @@ export class Login extends Component {
         <TouchableOpacity
           style={styles.visibleButtonStyle}
           onPress={() => this.setState({visible: true})}>
-          {this.renderIconEyeSlash()}
+          {this.renderIconEye()}
         </TouchableOpacity>
       );
     }
@@ -63,8 +92,33 @@ export class Login extends Component {
     this.setState({password, errorPassword: ''});
   };
 
+  doLoginButton = () => {
+    const {username, password} = this.state;
+
+    if (username === '') {
+      this.setState({
+        errorUsername: 'input is not valid',
+      });
+    }
+
+    if (password === '') {
+      this.setState({
+        errorPassword: 'input is not valid',
+      });
+    }
+
+    if (username !== '' && password !== '') {
+      // alert('login');
+      return this.getLogin();
+    }
+  };
+
   render() {
     const {username, password} = this.state;
+    const {userLogin} = this.props;
+    console.log(username, password);
+    console.log('user login:', userLogin);
+
     return (
       <ScrollView style={styles.container}>
         <View style={styles.containerView}>
@@ -91,7 +145,7 @@ export class Login extends Component {
             <Text style={styles.labelUsername}>{labelPassword}</Text>
             <Input
               onChangeText={this.changeInputPassword}
-              errorMessage={this.state.errorUsername}
+              errorMessage={this.state.errorPassword}
               inputContainerStyle={styles.inputContainerStyle}
               placeholder="Enter your password"
               secureTextEntry={this.state.visible}
@@ -101,7 +155,7 @@ export class Login extends Component {
           {/* end input */}
 
           {/* start forgot password */}
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate('ForgotPassword')}}>
             <Text style={styles.forgotPasswordText}>{forgotPassword}</Text>
           </TouchableOpacity>
           {/* end forgot password */}
@@ -110,8 +164,7 @@ export class Login extends Component {
           <View style={styles.viewButton}>
             <TouchableOpacity
               style={styles.button}
-              //   onPress={this.onButtonPressed}
-            >
+              onPress={this.doLoginButton}>
               <Text style={styles.btnText}>{title}</Text>
             </TouchableOpacity>
           </View>
@@ -126,7 +179,7 @@ export class Login extends Component {
             <TouchableOpacity
               style={styles.buttonSocmed}
               // onPress={this.googleSignIn}
-              >
+            >
               <Icon name="google" size={20} color="#03C4A1" />
               <Text style={styles.textGoogleButton}>{google}</Text>
             </TouchableOpacity>
@@ -148,4 +201,13 @@ export class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  // userList: state.auth.userList,
+  userLogin: state.Auth.userLogin,
+});
+
+const mapDispatchToProps = dispatch => ({
+  doLogin: data => dispatch(signIn(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

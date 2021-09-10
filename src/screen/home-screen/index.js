@@ -10,12 +10,22 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {mygreen} from '../../constant';
 import {Input} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
+import {signOut} from '../../config/redux/actions/AuthAction';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  logout = () => {
+    AsyncStorage.setItem('@userlogin', '');
+    this.props.doLogout();
+    this.props.navigation.replace('Login');
+  };
+
   render() {
     return (
       <View style={{backgroundColor: 'white', flex: 1}}>
@@ -44,7 +54,8 @@ class Home extends Component {
           <View style={{justifyContent: 'center'}}>
             <Text style={{color: mygreen}}>Mobilcu Rent Car</Text>
           </View>
-          <View
+          <TouchableOpacity
+            onPress={this.logout}
             style={{
               borderWidth: 1,
               width: 30,
@@ -55,7 +66,7 @@ class Home extends Component {
               borderRadius: 10,
             }}>
             <Icon name="sign-out-alt" size={20} color={mygreen} />
-          </View>
+          </TouchableOpacity>
         </View>
         <ScrollView style={styles.container}>
           <View
@@ -94,37 +105,67 @@ class Home extends Component {
           <View style={{alignItems: 'center'}}>
             <Text>Or </Text>
           </View>
-          {/* <View style={{borderWidth: 1, marginVertical: 20}}> */}
-          <TouchableOpacity
-            style={{
-              borderWidth: 0,
-              backgroundColor: mygreen,
-              padding: 10,
-              marginVertical: 20,
-              borderRadius:10,
-              alignItems:'center'
-            }}>
-            <Text style={{color: 'white'}}>Rent a Car</Text>
-          </TouchableOpacity>
-          {/* </View> */}
-          {/* <View
+          <View
             style={{
               borderWidth: 0,
               width: '100%',
-              height: 180,
-              backgroundColor: mygreen,
+              height: 480,
+              backgroundColor: '#EEEEEE',
               borderRadius: 20,
-              alignItems:'center'
+              alignItems: 'center',
+              marginTop:20,
+              paddingHorizontal:10
             }}>
-            <Text>banner</Text>
-          </View> */}
+            <View
+              style={{
+                borderWidth: 0,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <TouchableOpacity
+                style={{
+                  borderWidth: 0,
+                  backgroundColor: mygreen,
+                  padding: 10,
+                  marginVertical: 10,
+                  marginHorizontal:5,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  width: 150,
+                }}>
+                <Text style={{color: 'white'}}>With Driver</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderWidth: 0,
+                  backgroundColor: mygreen,
+                  padding: 10,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  width: 150,
+                }}>
+                <Text style={{color: 'white'}}>Without Driver</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{borderWidth: 1, width: '100%', marginHorizontal: 20}}>
+              <Text>Lokasi Rental Anda</Text>
+              <Input
+                inputContainerStyle={styles.inputContainerStyle}
+                placeholder="Type your fav car"
+                leftIcon={() => (
+                  <TouchableOpacity>
+                    <Icon name="map-marker-alt" size={20} color={mygreen} />
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </View>
         </ScrollView>
       </View>
     );
   }
 }
-
-export default Home;
 
 const styles = StyleSheet.create({
   container: {
@@ -155,3 +196,15 @@ const styles = StyleSheet.create({
     // elevation: 5,
   },
 });
+
+const mapStateToProps = state => ({
+  // userList: state.auth.userList,
+  // userLogin: state.Auth.userLogin,
+});
+
+const mapDispatchToProps = dispatch => ({
+  // doLogin: data => dispatch(signIn(data)),
+  doLogout: () => dispatch(signOut()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

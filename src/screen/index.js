@@ -4,5 +4,6 @@ import Home from "./home-screen";
 import Profile from "./profile-screen";
 import Order from "./order-screen";
 import InputOrderScreen from "./input-order-screen";
+import ForgotPassword from "./forgot-password-screen";
 
-export {Login, Register, Home, Profile, Order, InputOrderScreen};
+export {Login, Register, Home, Profile, Order, InputOrderScreen, ForgotPassword};
