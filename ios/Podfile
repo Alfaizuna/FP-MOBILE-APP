@@ -12,6 +12,8 @@ target 'fp_mobile_app' do
     :hermes_enabled => false
   )
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'fp_mobile_appTests' do
     inherit! :complete
     # Pods for testing

@@ -6,6 +6,7 @@ import { BottomTabNavigatorApp } from './../bottom-navigator/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { signIn } from '../../config/redux/actions/AuthAction';
+import { Splash } from './../../screen/splash-screen/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +40,7 @@ export class StackNavigatorApp extends Component {
   render() {
     if(this.props.userLogin){
       return (
-        <Stack.Navigator initialRouteName='BottomTab'>
+        <Stack.Navigator initialRouteName="BottomTab">
           <Stack.Screen
             name="BottomTab"
             component={BottomTabNavigatorApp}
@@ -59,6 +60,11 @@ export class StackNavigatorApp extends Component {
           <Stack.Screen
             name="InputOrder"
             component={InputOrderScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -125,7 +125,7 @@ export class Register extends Component {
           <View style={styles.containerView}>
             <Text style={styles.title}>Sign Up</Text>
             <Text style={styles.subtitle}>
-              Sign Up to continue using mobilcu rent car
+              Sign Up to continue using Mobilcu Rent Car
             </Text>
 
             {/* google button */}

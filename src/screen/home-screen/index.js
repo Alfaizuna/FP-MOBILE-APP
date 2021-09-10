@@ -6,6 +6,8 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Button,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {mygreen} from '../../constant';
@@ -13,17 +15,57 @@ import {Input} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import {signOut} from '../../config/redux/actions/AuthAction';
+import {Picker} from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {DatePicker} from '../../component/date-picker';
+import {TimePicker} from '../../component/time-picker';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      itemValue: '',
+      itemValueDriver: '',
+      date: '',
+      mode: '',
+      show: false,
+    };
   }
 
   logout = () => {
     AsyncStorage.setItem('@userlogin', '');
     this.props.doLogout();
     this.props.navigation.replace('Login');
+  };
+
+  onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    // setShow(Platform.OS === 'ios');
+    this.setState({
+      show: Platform.OS === 'android',
+      date: currentDate,
+    });
+    // setDate(currentDate);
+    // this.setState({date: currentDate});
+  };
+
+  showMode = currentMode => {
+    //  setShow(true);
+    this.setState({show: true, mode: currentMode});
+    // setMode(currentMode);
+    // this.setState({mode: currentMode});
+  };
+
+  showDatepicker = () => {
+    // showMode('date');
+    this.setState({mode: 'date'});
+  };
+
+  showTimepicker = () => {
+    // showMode('time');
+    this.setState({
+      mode: 'time',
+    });
   };
 
   render() {
@@ -111,24 +153,26 @@ class Home extends Component {
               width: '100%',
               height: 480,
               backgroundColor: '#EEEEEE',
-              borderRadius: 20,
+              borderRadius: 15,
               alignItems: 'center',
-              marginTop:20,
-              paddingHorizontal:10
+              marginTop: 20,
+              paddingHorizontal: 20,
+              paddingTop: 20,
             }}>
-            <View
+            {/* <View
               style={{
                 borderWidth: 0,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
+                
               <TouchableOpacity
                 style={{
                   borderWidth: 0,
                   backgroundColor: mygreen,
                   padding: 10,
                   marginVertical: 10,
-                  marginHorizontal:5,
+                  marginHorizontal: 5,
                   borderRadius: 10,
                   alignItems: 'center',
                   width: 150,
@@ -147,19 +191,68 @@ class Home extends Component {
                 }}>
                 <Text style={{color: 'white'}}>Without Driver</Text>
               </TouchableOpacity>
+            </View> */}
+            <View
+              style={{
+                borderWidth: 0.5,
+                width: '100%',
+                marginHorizontal: 0,
+                borderRadius: 10,
+              }}>
+              <View
+                style={{
+                  width: 400,
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                }}>
+                <Icon name="map-marker-alt" size={20} color={mygreen} />
+                <Text style={{paddingHorizontal: 15}}>Lokasi Rental Anda</Text>
+              </View>
+              <View style={{paddingHorizontal: 10}}>
+                <Picker
+                  // selectedValue={selectedLanguage}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({itemValue})
+                  }>
+                  <Picker.Item label="Bekasi" value="bekasi" />
+                  <Picker.Item label="Jakarta" value="jakarta" />
+                </Picker>
+              </View>
             </View>
-            <View style={{borderWidth: 1, width: '100%', marginHorizontal: 20}}>
-              <Text>Lokasi Rental Anda</Text>
-              <Input
-                inputContainerStyle={styles.inputContainerStyle}
-                placeholder="Type your fav car"
-                leftIcon={() => (
-                  <TouchableOpacity>
-                    <Icon name="map-marker-alt" size={20} color={mygreen} />
-                  </TouchableOpacity>
-                )}
-              />
+
+            <View
+              style={{
+                borderWidth: 0.5,
+                width: '100%',
+                margin: 10,
+                borderRadius: 10,
+              }}>
+              <View
+                style={{
+                  width: 400,
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                }}>
+                <Icon name="car" size={20} color={mygreen} />
+                <Text style={{paddingHorizontal: 15}}>Driver</Text>
+              </View>
+              <View style={{paddingHorizontal: 10}}>
+                <Picker
+                  // selectedValue={selectedLanguage}
+                  onValueChange={(itemValueDriver, itemIndex) =>
+                    this.setState({itemValueDriver})
+                  }>
+                  <Picker.Item label="With Driver" value="withDriver" />
+                  <Picker.Item label="Without Driver" value="withoutDriver" />
+                </Picker>
+              </View>
             </View>
+            {/* datetime */}
+
+            <DatePicker />
+            <TimePicker />
           </View>
         </ScrollView>
       </View>
