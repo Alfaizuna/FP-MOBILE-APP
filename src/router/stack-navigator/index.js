@@ -38,7 +38,7 @@ export class StackNavigatorApp extends Component {
   };
 
   render() {
-    if(this.props.userLogin){
+    if(!this.props.userLogin){
       return (
         <Stack.Navigator initialRouteName="BottomTab">
           <Stack.Screen
@@ -67,12 +67,22 @@ export class StackNavigatorApp extends Component {
             component={Splash}
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       );
     }
 
     return (
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Splash">
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

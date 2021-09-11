@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   viewRegisterButton: {
     alignItems: 'center',
     //   borderWidth: 1,
-    marginTop: 70,
+    marginTop: 20,
     marginRight: 10,
     flexDirection: 'row',
     justifyContent: 'center',

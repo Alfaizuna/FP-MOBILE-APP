@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {View, Button, Platform, TouchableOpacity, Text} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { mygreen } from '../../constant';
-
+import {mygreen} from '../../constant';
 
 export const DatePicker = () => {
   const [date, setDate] = useState(new Date(1598051730000));
@@ -61,24 +60,33 @@ export const DatePicker = () => {
 
   return (
     <View>
-      <View style={{width: 310, borderWidth: 0}}>
+      <View
+        style={{width: 310, borderWidth: 0.5, padding: 10, borderRadius: 10}}>
         {/* <Button onPress={showDatepicker} title="Show date picker!" /> */}
         <Text>Tanggal Penjemputan</Text>
-        <View style={{flexDirection: 'row', paddingVertical: 10}}>
+        <View
+          style={{
+            flexDirection: 'column',
+            paddingVertical: 10,
+            borderWidth: 0,
+          }}>
           <TouchableOpacity
             onPress={showDatepicker}
             style={{
               borderWidth: 0,
-              height: 50,
+              height: 30,
               //   width: 310,
-              marginRight: 10,
+              //   marginRight: 10,
+              marginHorizontal: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
             <Icon name="calendar-week" size={20} color={mygreen} />
+            <Text>
+              Date : {renderDay(date.getDay())}, {date.getDate()} /{' '}
+              {date.getMonth()} / {date.getFullYear()}{' '}
+            </Text>
           </TouchableOpacity>
-          <Text>
-            Date : {renderDay(date.getDay())}, {date.getDate()} /{' '}
-            {date.getMonth()} / {date.getFullYear()}{' '}
-          </Text>
         </View>
       </View>
       {/* <View>

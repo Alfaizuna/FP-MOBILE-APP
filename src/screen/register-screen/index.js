@@ -32,7 +32,7 @@ export class Register extends Component {
 
   hitApiRegister = user => {
     axios
-      .post('http://192.168.1.4:8080/car/register', user)
+      .post('http://192.168.43.131:8080/car/register', user)
       .then(response => {
         console.log(response.data);
 

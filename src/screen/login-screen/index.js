@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity, Alert, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input} from 'react-native-elements';
 import styles from './styles';
@@ -42,7 +42,7 @@ export class Login extends Component {
     const {username, password} = this.state;
     let user = {username: username, password: password};
     axios
-      .post('http://192.168.1.4:8080/car/login', user)
+      .post('http://192.168.43.131:8080/car/login', user)
       .then(response => {
         // console.log(response);
         if (response.data.errorMessage === 'Invalid username / password') {
@@ -124,6 +124,11 @@ export class Login extends Component {
         <View style={styles.containerView}>
           {/* start logo */}
           {/* <Text style={styles.title}>Mobilcu Rental Car</Text> */}
+          <Image
+            style={{width: 100, height:70, alignItems:'center'}}
+            source={require('../../images/splash.png')}
+          />
+
           {/* end logo */}
 
           {/* start title */}
@@ -155,7 +160,10 @@ export class Login extends Component {
           {/* end input */}
 
           {/* start forgot password */}
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate('ForgotPassword')}}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('ForgotPassword');
+            }}>
             <Text style={styles.forgotPasswordText}>{forgotPassword}</Text>
           </TouchableOpacity>
           {/* end forgot password */}

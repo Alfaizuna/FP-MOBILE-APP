@@ -16,9 +16,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import {signOut} from '../../config/redux/actions/AuthAction';
 import {Picker} from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {DatePicker} from '../../component/date-picker';
 import {TimePicker} from '../../component/time-picker';
+import axios from 'axios';
 
 class Home extends Component {
   constructor(props) {
@@ -32,43 +32,51 @@ class Home extends Component {
     };
   }
 
+  hitApiOrder = datas => {
+    axios
+      .post('http://192.168.43.131:8080/order/chooseOrder', datas.data, {
+        headers: datas.headers,
+      })
+      .then(response => {
+        console.log(response.data);
+
+        // Alert.alert('Congrats..', 'register success');
+        return this.props.navigation.navvigate('Order');
+      })
+      .catch(function (error) {
+        console.log(error);
+        // alert('salah input');
+      });
+  };
+
+  onButtonPressFindCar = () => {
+    const {itemValue, itemValueDriver} = this.state;
+    const userLogin = this.props.userLogin;
+    const token = userLogin.token;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    };
+
+    const datas = {
+      data: {driver: itemValueDriver, city: itemValue},
+      headers: headers,
+    };
+
+    this.hitApiOrder(datas);
+  };
+
   logout = () => {
     AsyncStorage.setItem('@userlogin', '');
     this.props.doLogout();
     this.props.navigation.replace('Login');
   };
 
-  onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    // setShow(Platform.OS === 'ios');
-    this.setState({
-      show: Platform.OS === 'android',
-      date: currentDate,
-    });
-    // setDate(currentDate);
-    // this.setState({date: currentDate});
-  };
-
-  showMode = currentMode => {
-    //  setShow(true);
-    this.setState({show: true, mode: currentMode});
-    // setMode(currentMode);
-    // this.setState({mode: currentMode});
-  };
-
-  showDatepicker = () => {
-    // showMode('date');
-    this.setState({mode: 'date'});
-  };
-
-  showTimepicker = () => {
-    // showMode('time');
-    this.setState({
-      mode: 'time',
-    });
-  };
-
   render() {
+    const {itemValue, itemValueDriver} = this.state;
+    const username = this.props.userLogin
+    console.log(itemValue);
+    console.log(itemValueDriver);
     return (
       <View style={{backgroundColor: 'white', flex: 1}}>
         <View
@@ -122,16 +130,16 @@ class Home extends Component {
             <View>
               <Text
                 style={{fontSize: 25, color: 'black', paddingHorizontal: 0}}>
-                Hello Alfaizuna,
+                Hello {username.username},
               </Text>
 
               <Text
                 style={{fontSize: 25, color: 'black', paddingHorizontal: 0}}>
-                Choose your car ...
+                Choose your Car ...
               </Text>
             </View>
           </View>
-          <View>
+          {/* <View>
             <Input
               //   onChangeText={this.changeInputUsername}
               //   errorMessage={this.state.errorUsername}
@@ -143,15 +151,15 @@ class Home extends Component {
                 </TouchableOpacity>
               )}
             />
-          </View>
-          <View style={{alignItems: 'center'}}>
+          </View> */}
+          {/* <View style={{alignItems: 'center'}}>
             <Text>Or </Text>
-          </View>
+          </View> */}
           <View
             style={{
               borderWidth: 0,
               width: '100%',
-              height: 480,
+              height: 550,
               backgroundColor: '#EEEEEE',
               borderRadius: 15,
               alignItems: 'center',
@@ -211,12 +219,13 @@ class Home extends Component {
               </View>
               <View style={{paddingHorizontal: 10}}>
                 <Picker
-                  // selectedValue={selectedLanguage}
+                  selectedValue={this.state.itemValue}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({itemValue})
                   }>
-                  <Picker.Item label="Bekasi" value="bekasi" />
-                  <Picker.Item label="Jakarta" value="jakarta" />
+                  <Picker.Item label="Pilih" value="" />
+                  <Picker.Item label="Bekasi" value="BKS" />
+                  <Picker.Item label="Jakarta" value="JKT" />
                 </Picker>
               </View>
             </View>
@@ -240,12 +249,13 @@ class Home extends Component {
               </View>
               <View style={{paddingHorizontal: 10}}>
                 <Picker
-                  // selectedValue={selectedLanguage}
+                  selectedValue={this.state.itemValueDriver}
                   onValueChange={(itemValueDriver, itemIndex) =>
                     this.setState({itemValueDriver})
                   }>
-                  <Picker.Item label="With Driver" value="withDriver" />
-                  <Picker.Item label="Without Driver" value="withoutDriver" />
+                  <Picker.Item label="Pilih" value="" />
+                  <Picker.Item label="With Driver" value="0" />
+                  <Picker.Item label="Without Driver" value="1" />
                 </Picker>
               </View>
             </View>
@@ -253,6 +263,25 @@ class Home extends Component {
 
             <DatePicker />
             <TimePicker />
+
+            {/* button */}
+            <TouchableOpacity
+              onPress={() => {
+                // alert('tes');
+                this.onButtonPressFindCar();
+              }}
+              style={{
+                borderWidth: 0,
+                marginVertical: 10,
+                width: 310,
+                height: 50,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: mygreen,
+              }}>
+              <Text style={{color: 'white'}}>Cari Mobil</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -292,7 +321,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   // userList: state.auth.userList,
-  // userLogin: state.Auth.userLogin,
+  userLogin: state.Auth.userLogin,
 });
 
 const mapDispatchToProps = dispatch => ({
