@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home, Login, Register, InputOrderScreen, ForgotPassword} from '../../screen';
+import {Home, Login, Register, InputOrderScreen, ForgotPassword, OrderCar} from '../../screen';
 import { BottomTabNavigatorApp } from './../bottom-navigator/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -38,7 +38,7 @@ export class StackNavigatorApp extends Component {
   };
 
   render() {
-    if(!this.props.userLogin){
+    if(this.props.userLogin!==''){
       return (
         <Stack.Navigator initialRouteName="BottomTab">
           <Stack.Screen
@@ -70,6 +70,12 @@ export class StackNavigatorApp extends Component {
           <Stack.Screen
             name="ForgotPassword"
             component={ForgotPassword}
+            options={{headerShown: false}}
+          />
+
+          <Stack.Screen
+            name="OrderCar"
+            component={OrderCar}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
@@ -106,6 +112,11 @@ export class StackNavigatorApp extends Component {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OrderCar"
+          component={OrderCar}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

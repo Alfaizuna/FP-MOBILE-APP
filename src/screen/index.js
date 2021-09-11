@@ -6,6 +6,7 @@ import Order from './order-screen';
 import InputOrderScreen from './input-order-screen';
 import ForgotPassword from './forgot-password-screen';
 import Splash from './splash-screen';
+import { OrderCar } from './order-car-screen';
 
 export {
   Login,
@@ -16,4 +17,5 @@ export {
   InputOrderScreen,
   ForgotPassword,
   Splash,
+  OrderCar
 };

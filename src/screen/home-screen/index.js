@@ -19,6 +19,7 @@ import {Picker} from '@react-native-picker/picker';
 import {DatePicker} from '../../component/date-picker';
 import {TimePicker} from '../../component/time-picker';
 import axios from 'axios';
+import { sendDataOrder } from '../../config/redux/actions/OrderAction';
 
 class Home extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ class Home extends Component {
         console.log(response.data);
 
         // Alert.alert('Congrats..', 'register success');
-        return this.props.navigation.navvigate('Order');
+        this.props.sendData(response.data)
+        return this.props.navigation.navigate('OrderCar');
       })
       .catch(function (error) {
         console.log(error);
@@ -327,6 +329,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   // doLogin: data => dispatch(signIn(data)),
   doLogout: () => dispatch(signOut()),
+  sendData: data => dispatch(sendDataOrder(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

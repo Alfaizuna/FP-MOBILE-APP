@@ -9,9 +9,17 @@ import {
 import {Avatar, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {mygreen} from '../../constant';
-
+import { connect } from 'react-redux';
+import { signOut } from '../../config/redux/actions/AuthAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class Profile extends Component {
+  logout = () => {
+    AsyncStorage.setItem('@userlogin', '');
+    this.props.doLogout();
+    this.props.navigation.replace('Login');
+  };
+
   render() {
     return (
       <View style={{backgroundColor: 'white', flex: 1}}>
@@ -31,6 +39,7 @@ export class Profile extends Component {
             Profile
           </Text>
           <TouchableOpacity
+            onPress={() => this.logout()}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -102,7 +111,7 @@ export class Profile extends Component {
                 marginVertical: 10,
                 borderRadius: 25,
               }}>
-              <Text>Udin Markocop</Text>
+              <Text>{this.props.userLogin.username}</Text>
             </View>
 
             <Text>Email</Text>
@@ -135,7 +144,18 @@ export class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = state => ({
+  // userList: state.auth.userList,
+  userLogin: state.Auth.userLogin,
+});
+
+const mapDispatchToProps = dispatch => ({
+  // doLogin: data => dispatch(signIn(data)),
+  doLogout: () => dispatch(signOut()),
+  // sendData: data => dispatch(sendDataOrder(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
