@@ -5,7 +5,7 @@ const initialState = {
 
 const OrderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "DATA_ORDER":
+    case 'DATA_ORDER':
       return {
         ...state,
         dataOrder: action.data,

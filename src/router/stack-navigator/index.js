@@ -38,7 +38,7 @@ export class StackNavigatorApp extends Component {
   };
 
   render() {
-    if(this.props.userLogin!==''){
+    if(!this.props.userLogin){
       return (
         <Stack.Navigator initialRouteName="BottomTab">
           <Stack.Screen

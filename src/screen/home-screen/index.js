@@ -19,7 +19,7 @@ import {Picker} from '@react-native-picker/picker';
 import {DatePicker} from '../../component/date-picker';
 import {TimePicker} from '../../component/time-picker';
 import axios from 'axios';
-import { sendDataOrder } from '../../config/redux/actions/OrderAction';
+import {sendDataOrder} from '../../config/redux/actions/OrderAction';
 
 class Home extends Component {
   constructor(props) {
@@ -39,11 +39,11 @@ class Home extends Component {
         headers: datas.headers,
       })
       .then(response => {
-        console.log(response.data);
+        console.log('ini response', response.data);
 
         // Alert.alert('Congrats..', 'register success');
-        this.props.sendData(response.data)
-        return this.props.navigation.navigate('OrderCar');
+        // this.props.sendData(response.data);
+        return this.props.navigation.navigate('OrderCar', response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -76,7 +76,7 @@ class Home extends Component {
 
   render() {
     const {itemValue, itemValueDriver} = this.state;
-    const username = this.props.userLogin
+    const username = this.props.userLogin;
     console.log(itemValue);
     console.log(itemValueDriver);
     return (
@@ -329,7 +329,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   // doLogin: data => dispatch(signIn(data)),
   doLogout: () => dispatch(signOut()),
-  sendData: data => dispatch(sendDataOrder(data))
+  sendData: data => dispatch(sendDataOrder(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
